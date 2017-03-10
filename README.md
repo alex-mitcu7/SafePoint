@@ -2,7 +2,7 @@
 
 # Safe Point
 
-* Collaborators: *
+**Collaborators:**
 
 * Alexandru Barbu
 
