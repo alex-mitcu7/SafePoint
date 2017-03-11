@@ -20,6 +20,22 @@ var requestWithCrime = function(lat, long, crime) {
             .append("Longitude " + array2[i][3] + " ")
     }
 }
+
+var requestWithCrimePoly = function(point1, point2, point3, point4, crime) {
+
+    var array1 = requestPoly(point1, point2, point3, point4);
+
+    var array2 = crimeSelection(array1, crime);
+
+    for (var i = 0; i < array2.length; i++) {
+        $("body")
+            .append("Category " + array2[i][0] + " ")
+            .append("Date " + array2[i][1] + " ")
+            .append("Latitude " + array2[i][2] + " ")
+            .append("Longitude " + array2[i][3] + " ")
+    }
+}
+
 var requestSpot = function(lat, long) {
 
     // var results = create2DArray(5000);
