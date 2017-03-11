@@ -254,7 +254,10 @@ function initMap() {
         var  newLong = event.latLng.lng();
         var latLng = new google.maps.LatLng(newLat, newLong);
         marker.setPosition(latLng);
-        document.getElementById('display').innerHTML = newLat + ' ' + newLong;
+    });
+
+    $( "#calculate" ).click(function() {
+        calculateArea();
     });
 
 }

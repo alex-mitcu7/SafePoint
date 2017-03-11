@@ -1,7 +1,6 @@
 /**
  * Created by alex on 11/03/17.
  */
-$( document ).ready(function() {
 
     function calculateArea() {
         var radius = parseFloat(document.getElementById("radius").value);
@@ -12,6 +11,13 @@ $( document ).ready(function() {
         var east = centerPoint.destinationPoint(90, radius);
         var south = centerPoint.destinationPoint(180, radius);
         var west = centerPoint.destinationPoint(270, radius);
+        var northStr, southStr, eastStr, westStr;
+        northStr = north.lat() + ',' + north.lng();
+        eastStr = east.lat() + ',' + east.lng();
+        southStr = south.lat() + ',' + south.lng();
+        westStr = west.lat() + ',' + west.lng();
+
+        requestPoly(northStr, eastStr, southStr, westStr);
 
     }
 
@@ -42,9 +48,5 @@ $( document ).ready(function() {
         return this * 180 / Math.PI;
     }
 
-    $( "#calculate" ).click(function() {
-        calculateArea();
-    });
-});
 
 
