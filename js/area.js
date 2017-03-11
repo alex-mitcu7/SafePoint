@@ -1,21 +1,45 @@
 /**
  * Created by alex on 11/03/17.
  */
-$( document ).ready(function() {
-
     function calculateArea() {
         var radius = parseFloat(document.getElementById("radius").value);
+        var crimeType = document.getElementById("crime").value;
         var centerPoint = marker.getPosition();
 
+        params = calculateSurroundings(centerPoint, radius);
+
+        var largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
+        while(largerAreaResult == [] && radius > 0) {
+            radius -= 5;
+            $("#displayResult").html('<h3>Trying again with radius ' + radius + '</h3>');
+            params = calculateSurroundings(centerPoint, radius);
+            largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
+        }
+
+       // $("#displayResult").html('<br>' + largerAreaResult.length + '<br>');
+      drawMarker(largerAreaResult);
+
+    }
+
+    function calculateSurroundings(centerPoint, radius) {
         // Calculate points which will define the area of interest
         var north = centerPoint.destinationPoint(0, radius);
         var east = centerPoint.destinationPoint(90, radius);
         var south = centerPoint.destinationPoint(180, radius);
         var west = centerPoint.destinationPoint(270, radius);
+        var northStr, southStr, eastStr, westStr;
+        northStr = north.lat() + ',' + north.lng();
+        eastStr = east.lat() + ',' + east.lng();
+        southStr = south.lat() + ',' + south.lng();
+        westStr = west.lat() + ',' + west.lng();
 
-        
+        result = [];
+        result.push(northStr);
+        result.push(eastStr);
+        result.push(southStr);
+        result.push(westStr);
 
-
+        return result;
     }
 
     google.maps.LatLng.prototype.destinationPoint = function (brng, dist) {
@@ -45,9 +69,5 @@ $( document ).ready(function() {
         return this * 180 / Math.PI;
     }
 
-    $( "#calculate" ).click(function() {
-        calculateArea();
-    });
-});
 
 
