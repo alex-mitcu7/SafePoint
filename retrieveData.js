@@ -18,7 +18,7 @@ var requestSpot = function(lat, long) {
             count++;
         }
         var results = create2DArray(count);
-        $("body").append("Status " + status + " ")
+        $("body").append("Status " + status + " ");
         $.each(result, function(i, field){
             results[i].push(field.category);
             results[i].push(field.month);
@@ -47,7 +47,7 @@ var requestPoly = function(point1, point2, point3, point4) {
             count++;
         }
         var results = create2DArray(count);
-        $("body").append("Status " + status + " ")
+        $("body").append("Status " + status + " ");
         $.each(result, function(i, field){
             results[i].push(field.category);
             results[i].push(field.month);
