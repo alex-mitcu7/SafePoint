@@ -4,27 +4,41 @@
     function calculateArea() {
         var radius = parseFloat(document.getElementById("radius").value);
         var crimeType = document.getElementById("crime").value;
-        console.log(crimeType);
         var centerPoint = marker.getPosition();
 
-        if(radius != 0) {
-            // Calculate points which will define the area of interest
-            var north = centerPoint.destinationPoint(0, radius);
-            var east = centerPoint.destinationPoint(90, radius);
-            var south = centerPoint.destinationPoint(180, radius);
-            var west = centerPoint.destinationPoint(270, radius);
-            var northStr, southStr, eastStr, westStr;
-            northStr = north.lat() + ',' + north.lng();
-            eastStr = east.lat() + ',' + east.lng();
-            southStr = south.lat() + ',' + south.lng();
-            westStr = west.lat() + ',' + west.lng();
+        params = calculateSurroundings(centerPoint, radius);
 
-            requestWithCrimePoly(northStr, eastStr, southStr, westStr, crimeType);
-        }
-        else {
-            requestWithCrime(centerPoint.lat(), centerPoint.lng(), crimeType);
+        var largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
+        while(largerAreaResult == [] && radius > 0) {
+            radius -= 5;
+            $("#displayResult").html('<h3>Trying again with radius ' + radius + '</h3>');
+            params = calculateSurroundings(centerPoint, radius);
+            largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
         }
 
+        //$("#displayResult").html('<br>' + largerAreaResult.length + '<br>');
+
+    }
+
+    function calculateSurroundings(centerPoint, radius) {
+        // Calculate points which will define the area of interest
+        var north = centerPoint.destinationPoint(0, radius);
+        var east = centerPoint.destinationPoint(90, radius);
+        var south = centerPoint.destinationPoint(180, radius);
+        var west = centerPoint.destinationPoint(270, radius);
+        var northStr, southStr, eastStr, westStr;
+        northStr = north.lat() + ',' + north.lng();
+        eastStr = east.lat() + ',' + east.lng();
+        southStr = south.lat() + ',' + south.lng();
+        westStr = west.lat() + ',' + west.lng();
+
+        result = [];
+        result.push(northStr);
+        result.push(eastStr);
+        result.push(southStr);
+        result.push(westStr);
+
+        return result;
     }
 
     google.maps.LatLng.prototype.destinationPoint = function (brng, dist) {

@@ -9,7 +9,6 @@
             type="text/javascript">
     </script>
     <script src="js/gmap.js" type="text/javascript"></script>
-    <script src="js/retrieveData.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="css/gmap.css">
 </head>
 <body>
@@ -20,19 +19,31 @@
         <form id="select-info">
             <label for="crime">Offence type</label>
             <select name="crime" id="crime" form="select-info">
-                <option value="burglary">Burglary</option>
-                <option value="theft">Theft</option>
+                <option value="all-crime">All crimes</option>
                 <option value="anti-social-behaviour">Anti-social behaviour</option>
-
+                <option value="bicycle-theft">Bicycle theft</option>
+                <option value="burglary">Burglary</option>
+                <option value="criminal-damage-arson">Criminal damage and arson</option>
+                <option value="drugs">Drugs</option>
+                <option value="other-theft">Other theft</option>
+                <option value="possession-of-weapons">Possession of weapons</option>
+                <option value="public-order">Public order</option>
+                <option value="robbery">Robbery</option>
+                <option value="shoplifting">Shoplifting</option>
+                <option value="theft-from-the-person">Theft from the person</option>
+                <option value="vehicle-crime">Vehicle crime</option>
+                <option value="violent-crime">Violent and sexual offences</option>
+                <option value="other-crime">Other</option>
             </select>
 
             <label for="radius">Radius</label>
             <select name="radius" id="radius" form="select-info">
-                <option value="0">No radius</option>
-                <option value="0.5">0.5 miles</option>
-                <option value="1">1 mile</option>
-                <option value="2">2 miles</option>
                 <option value="5">5 miles</option>
+                <option value="10">10 miles</option>
+                <option value="15">15 miles</option>
+                <option value="20">20 miles</option>
+                <option value="25">25 miles</option>
+                <option value="30">30 miles</option>
             </select>
             <br>
             <input type="button" id="calculate" value="Calculate" />
