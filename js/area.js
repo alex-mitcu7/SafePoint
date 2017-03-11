@@ -16,7 +16,8 @@
             largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
         }
 
-        $("#displayResult").html('<br>' + largerAreaResult.length + '<br>');
+       // $("#displayResult").html('<br>' + largerAreaResult.length + '<br>');
+      drawMarker(largerAreaResult);
 
     }
 
