@@ -12,13 +12,7 @@ var requestWithCrime = function(lat, long, crime) {
 
     var array2 = crimeSelection(array1, crime);
 
-    for (var i = 0; i < array2.length; i++) {
-        $("body")
-            .append("Category " + array2[i][0] + " ")
-            .append("Date " + array2[i][1] + " ")
-            .append("Latitude " + array2[i][2] + " ")
-            .append("Longitude " + array2[i][3] + " ")
-    }
+    return array2;
 }
 
 var requestWithCrimePoly = function(point1, point2, point3, point4, crime) {
@@ -27,13 +21,7 @@ var requestWithCrimePoly = function(point1, point2, point3, point4, crime) {
 
     var array2 = crimeSelection(array1, crime);
 
-    for (var i = 0; i < array2.length; i++) {
-        $("#displayResult")
-            .append("Category " + array2[i][0] + " ")
-            .append("Date " + array2[i][1] + " ")
-            .append("Latitude " + array2[i][2] + " ")
-            .append("Longitude " + array2[i][3] + " ")
-    }
+    return array2;
 }
 
 var requestSpot = function(lat, long) {
@@ -50,7 +38,6 @@ var requestSpot = function(lat, long) {
                 count++;
             }
             results = create2DArray(count);
-            $("body").append("Status " + status + " ");
             $.each(result, function(i, field){
                 results[i].push(field.category);
                 results[i].push(field.month);
@@ -70,23 +57,30 @@ var requestPoly = function(point1, point2, point3, point4) {
     $.ajax({
         async: false,
         url: url,
-        success: function(result , status, jsXHR){
-            var count = 0;
-            while (result[count]) {
-                count++;
+        statusCode: {
+            503: function(xhr) {
+                results = [];
+            },
+            200: function(result , status, jsXHR){
+                var count = 0;
+                while (result[count]) {
+                    count++;
+                }
+
+                results = create2DArray(count);
+
+
+                $.each(result, function(i, field){
+
+                    results[i].push(field.category);
+                    results[i].push(field.month);
+                    results[i].push(field.location.latitude);
+                    results[i].push(field.location.longitude);
+                });
             }
-            results = create2DArray(count);
-            $("body").append("Status " + status + " ");
-            $.each(result, function(i, field){
-                results[i].push(field.category);
-                results[i].push(field.month);
-                results[i].push(field.location.latitude);
-                results[i].push(field.location.longitude);
-            });
         }
     });
     return results;
-
 }
 
 var create2DArray = function (rows) {
@@ -99,22 +93,33 @@ var create2DArray = function (rows) {
     return arr;
 }
 
+var createObjectArray = function (rows) {
+    var arr = [];
+
+    for (var i=0;i<rows;i++) {
+        arr[i] = new Object();
+    }
+
+    return arr;
+}
+
 var crimeSelection = function(array, crime) {
 
     var i = 0;
-    var arraySelected = create2DArray(array.length);
+    var results = createObjectArray(array.length);
 
     for (var j = 0; j < array.length; j++)
     {
         if (array[j][0] == crime)
         {
-            arraySelected[i].push(array[j][0]);
-            arraySelected[i].push(array[j][1]);
-            arraySelected[i].push(array[j][2]);
-            arraySelected[i].push(array[j][3]);
+            results[i].category = array[j][0];
+            results[i].date = array[j][1];
+            results[i].latitute = array[j][2];
+            results[i].longitude = array[j][3];
             i++;
         }
     }
-    var finalArray = arraySelected.slice(0, i);
-    return finalArray;
+
+    var finalArrayJson = JSON.stringify(results.slice(0, i));
+    return finalArrayJson;
 }
