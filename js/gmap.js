@@ -1,11 +1,11 @@
 /**
  * Created by alex on 11/03/17.
  */
-var marker;
+var marker, map;
 
 function initMap() {
     var center = {lat: 51.509865, lng: -0.118092};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
         center: center,
         styles: [
@@ -276,6 +276,8 @@ function initMap() {
     $.when(
         $.getScript( "js/area.js" ),
         $.getScript( "js/retrieveData.js" ),
+        $.getScript("https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"),
+        $.getScript( "js/heatmap.js" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );
         })
