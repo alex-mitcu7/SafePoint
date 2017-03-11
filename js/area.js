@@ -9,7 +9,7 @@
         params = calculateSurroundings(centerPoint, radius);
 
         var largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
-        while(largerAreaResult == [] && radius > 0) {
+        while(largerAreaResult.length == 0) {
             radius -= 5;
             $("#displayResult").html('<h3>Trying again with radius ' + radius + '</h3>');
             params = calculateSurroundings(centerPoint, radius);
