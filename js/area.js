@@ -13,9 +13,6 @@ $( document ).ready(function() {
         var south = centerPoint.destinationPoint(180, radius);
         var west = centerPoint.destinationPoint(270, radius);
 
-        
-
-
     }
 
     google.maps.LatLng.prototype.destinationPoint = function (brng, dist) {
