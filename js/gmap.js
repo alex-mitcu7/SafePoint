@@ -1,6 +1,8 @@
 /**
  * Created by alex on 11/03/17.
  */
+var marker;
+
 function initMap() {
     var center = {lat: 53.4767, lng: -2.2932};
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -241,7 +243,7 @@ function initMap() {
         ]
     });
 
-    var marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: center,
         map: map
     });
