@@ -256,8 +256,14 @@ function initMap() {
         marker.setPosition(latLng);
     });
 
-    $( "#calculate" ).click(function() {
-        calculateArea();
+    $.when(
+        $.getScript( "js/area.js" ),
+        $.Deferred(function( deferred ){
+            $( deferred.resolve );
+        })
+    ).done(function(){
+        $( "#calculate" ).click(function() {
+            calculateArea();
+        });
     });
-
 }
