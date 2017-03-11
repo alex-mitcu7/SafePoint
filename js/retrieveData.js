@@ -97,7 +97,7 @@ var createObjectArray = function (rows) {
     var arr = [];
 
     for (var i=0;i<rows;i++) {
-        arr[i] = new Object();
+        arr[i] = new google.maps.LatLng();
     }
 
     return arr;
@@ -107,19 +107,21 @@ var crimeSelection = function(array, crime) {
 
     var i = 0;
     var results = createObjectArray(array.length);
-
-    for (var j = 0; j < array.length; j++)
-    {
-        if (array[j][0] == crime)
-        {
-            results[i].category = array[j][0];
-            results[i].date = array[j][1];
-            results[i].latitute = array[j][2];
-            results[i].longitude = array[j][3];
-            i++;
+    if(crime != "all-crime") {
+        for (var j = 0; j < array.length; j++) {
+            if (array[j][0] == crime) {
+                results[i] = new google.maps.LatLng(array[j][2], array[j][3]);
+                //results[i].category = array[j][0];
+                //results[i].date = array[j][1];
+                //results[i].latitute = array[j][2];
+                //results[i].longitude = array[j][3];
+                i++;
+            }
         }
+        return results.slice(0, i);
+    } else {
+        for (var j = 0; j < array.length; j++)
+            results[j] = new google.maps.LatLng(array[j][2], array[j][3]);
     }
-
-    var finalArrayJson = JSON.stringify(results.slice(0, i));
-    return finalArrayJson;
+    return results;
 }

@@ -9,15 +9,14 @@
         params = calculateSurroundings(centerPoint, radius);
 
         var largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
-        while(largerAreaResult == '[]') {
+        while(largerAreaResult == [] && radius > 0) {
             radius -= 5;
             $("#displayResult").html('<h3>Trying again with radius ' + radius + '</h3>');
             params = calculateSurroundings(centerPoint, radius);
             largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
         }
-        var smallerAreaResult = requestWithCrime(centerPoint.lat(), centerPoint.lng(), crimeType);
 
-        $("#displayResult").append(largerAreaResult);
+        //$("#displayResult").html('<br>' + largerAreaResult.length + '<br>');
 
     }
 

@@ -4,7 +4,7 @@
 var marker;
 
 function initMap() {
-    var center = {lat: 53.4767, lng: -2.2932};
+    var center = {lat: 51.509865, lng: -0.118092};
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
         center: center,
@@ -248,6 +248,23 @@ function initMap() {
         map: map
     });
 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            map.setCenter(pos);
+            marker.setPosition(pos);
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+
     //Add listener
     google.maps.event.addListener(map, "click", function (event) {
         var newLat = event.latLng.lat();
@@ -258,6 +275,7 @@ function initMap() {
 
     $.when(
         $.getScript( "js/area.js" ),
+        $.getScript( "js/retrieveData.js" ),
         $.Deferred(function( deferred ){
             $( deferred.resolve );
         })
@@ -266,4 +284,11 @@ function initMap() {
             calculateArea();
         });
     });
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
 }
