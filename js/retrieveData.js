@@ -26,7 +26,6 @@ var requestWithCrimePoly = function(point1, point2, point3, point4, crime) {
 
 var requestSpot = function(lat, long) {
 
-    // var results = create2DArray(5000);
     var url = "https://data.police.uk/api/crimes-street/all-crime" + "?lat=" + lat + "&lng=" + long;
     var results = null;
     $.ajax({
@@ -97,7 +96,7 @@ var createObjectArray = function (rows) {
     var arr = [];
 
     for (var i=0;i<rows;i++) {
-        arr[i] = new google.maps.LatLng();
+        arr[i] = new Object();
     }
 
     return arr;
@@ -106,11 +105,11 @@ var createObjectArray = function (rows) {
 var crimeSelection = function(array, crime) {
 
     var i = 0;
-    var results = createObjectArray(array.length);
+    var results = [];
     if(crime != "all-crime") {
         for (var j = 0; j < array.length; j++) {
             if (array[j][0] == crime) {
-                results[i] = new google.maps.LatLng(array[j][2], array[j][3]);
+                results[i] = new google.maps.LatLng(parseFloat(array[j][2]), parseFloat(array[j][3]));
                 //results[i].category = array[j][0];
                 //results[i].date = array[j][1];
                 //results[i].latitute = array[j][2];
@@ -121,7 +120,7 @@ var crimeSelection = function(array, crime) {
         return results.slice(0, i);
     } else {
         for (var j = 0; j < array.length; j++)
-            results[j] = new google.maps.LatLng(array[j][2], array[j][3]);
+            results[j] = new google.maps.LatLng(parseFloat(array[j][2]), parseFloat(array[j][3]));
     }
     return results;
 }
