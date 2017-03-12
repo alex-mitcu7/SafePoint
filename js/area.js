@@ -2,6 +2,8 @@
  * Created by alex on 11/03/17.
  */
     function calculateArea() {
+
+        $("#error").hide();
         var radius = parseFloat(document.getElementById("radius").value);
         var crimeType = document.getElementById("crime").value;
         var centerPoint = marker.getPosition();
@@ -9,16 +11,22 @@
         params = calculateSurroundings(centerPoint, radius);
 
         var largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
-        while(largerAreaResult == [] && radius > 0) {
+        while(largerAreaResult.length == 0 && radius > 0) {
             radius -= 5;
-            $("#displayResult").html('<h3>Trying again with radius ' + radius + '</h3>');
+            $("#warning").show();
+            $("#displayWarning").text('Trying with radius ' + radius);
             params = calculateSurroundings(centerPoint, radius);
             largerAreaResult = requestWithCrimePoly(params[0], params[1], params[2], params[3], crimeType);
         }
 
-       // $("#displayResult").html('<br>' + largerAreaResult.length + '<br>');
-      drawMarker(largerAreaResult);
+        $("#warning").hide();
 
+        if(largerAreaResult.length != 0)
+            drawMarker(largerAreaResult);
+        else {
+            $("#error").show();
+            $("#displayError").append('<strong>Too many crimes!<strong>');
+        }
     }
 
     function calculateSurroundings(centerPoint, radius) {

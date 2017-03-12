@@ -8,7 +8,6 @@
 #form-control {
     width: 20%;
     height: 500px;
-    float: left;
     margin-left: 3%;
 }
 
@@ -22,4 +21,12 @@
 
 #radius {
     display: block;
+}
+
+body{
+    font-family: "Trebuchet MS", sans-serif;
+    margin: 50px;
+}
+select {
+    width: 200px;
 }
